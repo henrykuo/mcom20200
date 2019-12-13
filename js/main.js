@@ -10202,7 +10202,7 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 	// DOM
 	'use strict';
 
-	var _, $, lg, $menuButton, $menu, $menuL1, $menuL1Link, $menuFlyout, $menuCat, $overlay, menuState, flyoutState, headerHeight, child, childCurrent, menuL1height, debounce_show_menu, debounce_hide_menu, debounce_show_flyout, debounce_show_cat, debounce_hide_flyout, debounce_remove_max_height_on_menu;
+	var _, $, lg, $menuButton, $menu, $menuL1, $menuL1Link, $menuFlyout, $menuCat, $overlay, $signIn, $signInLink, $signInPanel, menuState, flyoutState, headerHeight, child, childCurrent, menuL1height, debounce_show_menu, debounce_hide_menu, debounce_show_flyout, debounce_show_cat, debounce_hide_flyout, debounce_remove_max_height_on_menu, debounce_show_signInPanel, debounce_hide_signInPanel;
 
 	// ----------------- MENU TOGGLE -----------------
 	// Show Menu
@@ -10279,6 +10279,14 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 	function remove_max_height_on_menu() {
 		$menu.css({ 'max-height': 'none' });
 	}
+	// ----------------- SHOW SIGN IN PANEL -----------------
+	function show_signInPanel() {
+		$signInPanel.addClass('active');
+	}
+	// ----------------- HIDE SIGN IN PANEL -----------------
+	function hide_signInPanel() {
+		$signInPanel.removeClass('active');
+	}
 	// =======================================================================================
 	// EVENTS
 	return {
@@ -10298,6 +10306,11 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			$menuCat = $('.menu-cat');
 			$overlay = $('.overlay');
 
+			// Account from Header
+			$signIn = $('.store-and-account').find('.account');
+			$signInLink = $('.store-and-account').find('.account').find('.lockup');
+			$signInPanel = $('.store-and-account').find('.account').find('.menu-panel-account');
+
 			// =======================================================================================
 			// VARS
 			menuState = 0;
@@ -10316,6 +10329,8 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			debounce_show_cat = _.debounce(show_cat, 250);
 			debounce_hide_flyout = _.debounce(hide_flyout, 10);
 			debounce_remove_max_height_on_menu = _.debounce(remove_max_height_on_menu, 250);
+			debounce_show_signInPanel = _.debounce(show_signInPanel, 10);
+			debounce_hide_signInPanel = _.debounce(hide_signInPanel, 50);
 			$menuButton.on('mouseenter', function () {
 				debounce_hide_menu.cancel();
 				if (menuState === 0) {
@@ -10349,6 +10364,14 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			}).on('mouseleave', function () {
 				debounce_hide_flyout();
 			});
+			$signIn.on('mouseenter', function () {
+				lg('mouse enter');
+				debounce_hide_signInPanel.cancel();
+				debounce_show_signInPanel();
+			}).on('mouseleave', function () {
+				lg('mouse leave');
+				debounce_hide_signInPanel();
+			});
 			$(document).keydown(function (e) {
 				switch (e.keyCode) {
 					case 83:
@@ -10364,7 +10387,7 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			});
 			// =======================================================================================
 			// CHECK END
-			//lg(`header {blue{loaded}}`);
+			lg('header {blue{loaded}}');
 		}
 	};
 });
