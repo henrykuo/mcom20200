@@ -10202,7 +10202,7 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 	// DOM
 	'use strict';
 
-	var _, $, lg, $menuButton, $menu, $menuL1, $menuL1Link, $menuFlyout, $menuCat, $overlay, $signIn, $signInLink, $signInPanel, menuState, flyoutState, headerHeight, child, childCurrent, menuL1height, debounce_show_menu, debounce_hide_menu, debounce_show_flyout, debounce_show_cat, debounce_hide_flyout, debounce_remove_max_height_on_menu, debounce_show_signInPanel, debounce_hide_signInPanel;
+	var _, $, lg, $menuButton, $menu, $menuL1, $menuL1Link, $menuFlyout, $menuCat, $overlay, $signIn, $signInLink, $signInPanel, $giftPanel, $giftLink, menuState, flyoutState, headerHeight, child, childCurrent, menuL1height, debounce_show_menu, debounce_hide_menu, debounce_show_flyout, debounce_show_cat, debounce_hide_flyout, debounce_remove_max_height_on_menu, debounce_show_signInPanel, debounce_hide_signInPanel, debounce_show_giftPanel, debounce_hide_giftPanel;
 
 	// ----------------- MENU TOGGLE -----------------
 	// Show Menu
@@ -10287,6 +10287,14 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 	function hide_signInPanel() {
 		$signInPanel.removeClass('active');
 	}
+	// ----------------- SHOW SIGN IN PANEL -----------------
+	function show_giftPanel() {
+		$giftPanel.addClass('active');
+	}
+	// ----------------- HIDE SIGN IN PANEL -----------------
+	function hide_giftPanel() {
+		$giftPanel.removeClass('active');
+	}
 	// =======================================================================================
 	// EVENTS
 	return {
@@ -10311,6 +10319,10 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			$signInLink = $('.store-and-account').find('.account').find('.lockup');
 			$signInPanel = $('.store-and-account').find('.account').find('.menu-panel-account');
 
+			// Gift panel
+			$giftPanel = $('.menu-panel-gifts');
+			$giftLink = $('.utility-link-gifts');
+
 			// =======================================================================================
 			// VARS
 			menuState = 0;
@@ -10331,6 +10343,8 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			debounce_remove_max_height_on_menu = _.debounce(remove_max_height_on_menu, 250);
 			debounce_show_signInPanel = _.debounce(show_signInPanel, 10);
 			debounce_hide_signInPanel = _.debounce(hide_signInPanel, 50);
+			debounce_show_giftPanel = _.debounce(show_giftPanel, 10);
+			debounce_hide_giftPanel = _.debounce(hide_giftPanel, 50);
 			$menuButton.on('mouseenter', function () {
 				debounce_hide_menu.cancel();
 				if (menuState === 0) {
@@ -10365,12 +10379,16 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 				debounce_hide_flyout();
 			});
 			$signIn.on('mouseenter', function () {
-				lg('mouse enter');
 				debounce_hide_signInPanel.cancel();
 				debounce_show_signInPanel();
 			}).on('mouseleave', function () {
-				lg('mouse leave');
 				debounce_hide_signInPanel();
+			});
+			$giftLink.on('mouseenter', function () {
+				debounce_hide_giftPanel.cancel();
+				debounce_show_giftPanel();
+			}).on('mouseleave', function () {
+				debounce_hide_giftPanel();
 			});
 			$(document).keydown(function (e) {
 				switch (e.keyCode) {
@@ -10387,7 +10405,7 @@ $__System.register('b', ['7', '9', 'a'], function (_export) {
 			});
 			// =======================================================================================
 			// CHECK END
-			lg('header {blue{loaded}}');
+			//lg(`header {blue{loaded}}`);
 		}
 	};
 });
